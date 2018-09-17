@@ -19,10 +19,8 @@ library(tidyverse)
 * A (length-10) character vector
 * A (length-10) factor vector
 
-```{r df_create}
-
+```{r df_create_1}
 set.seed(1)
-
 prob1_df = tibble(
   list = sample(0:5, 10, replace = TRUE), 
   greater_2 = list > 2, 
@@ -65,6 +63,16 @@ Converting the factor vector to character to numeric, however, is not possible.
 
 # Problem 2
 
-```{r}
-
+```{r df_create_2}
+set.seed(2)
+prob2_df = tibble(
+  x = rnorm(1000),
+  y = rnorm(1000),
+  greater_0 = x + y > 0, 
+  TF_num = as.numeric(greater_0),
+  TF_fac = as.factor(TF_num)
+)
+str(prob2_df)
 ```
+
+The data frame created has a size of "". The mean of "x" is equal to `r mean(prob2_df$x)` and the median of "x" is equal to `r median(prob2_df$x)`. `r sum(prob2_df$TF_num)`. 
