@@ -1,0 +1,70 @@
+---
+title: "p8105_hw1_ms5533"
+author: "Marisa Sobel"
+date: 2018-09-21
+output: github_document
+---
+
+# Set-Up
+
+```{r setup, include=FALSE}
+library(tidyverse)
+```
+
+# Problem 1
+
+### Create a data frame comprised of:
+* A random sample of size 10 from a uniform[0, 5] distribution
+* A logical vector indicating whether elements of the sample are greater than 2
+* A (length-10) character vector
+* A (length-10) factor vector
+
+```{r df_create}
+
+set.seed(1)
+
+prob1_df = tibble(
+  list = sample(0:5, 10, replace = TRUE), 
+  greater_2 = list > 2, 
+  vec_car = c("Will", "I", "ever", "be", "able", "to", "remember", "any", "R", "commands"), 
+  vec_factor = c("yes", "no", "yes", "no", "yes", "no", "yes", "no", "yes", "no")
+)
+```
+
+### Take the mean of each variable in your dataframe. What works and what doesn’t? Why?
+
+```{r means}
+mean(prob1_df$list)
+mean(prob1_df$greater_2)
+mean(prob1_df$vec_car)
+mean(prob1_df$vec_factor)
+```
+
+The mean of "list"" and the logical vector "greater_2" are possible. "list" is a list of numbers, and therefore a mean is possible and equals `r mean(prob1_df$list)`. "greater_2" is a logical vector with a dichotomized outcome (TRUE/FALSE), coded as 1 or 0, and equals `r mean(prob1_df$greater_2)`. Means of "vec_car" and "vec_factor" cannot compute as they are not numeric. 
+
+### Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens?
+
+```{r means_as_numeric, eval=FALSE}
+mean(as.numeric(prob1_df$greater_2))
+mean(as.numeric(prob1_df$vec_car))
+mean(as.numeric(prob1_df$vec_factor))
+```
+
+When applying the "as.numeric" function to the logical vector, it produced the same result, `r mean(as.numeric(prob1_df$greater_2))`. The "as.numeric" function did not change the outcome of the character or factor vectors. 
+
+### Convert your character variable from character to factor to numeric; similarly, convert your factor variable from factor to character to numeric. What happens?
+
+```{r converting, eval=FALSE}
+as.numeric(as.factor(prob1_df$vec_car))
+as.numeric(as.character(prob1_df$vec_factor))
+```
+
+Converting the character vector to factor and then to numeric is possible; it returns a numeric list. If first orders the words alphabetically, then it applies numbers to the alphabetical list. The output then is the corresponting number to the word in the original order. 
+
+Converting the factor vector to character to numeric, however, is not possible. 
+
+# Problem 2
+
+```{r}
+
+```
