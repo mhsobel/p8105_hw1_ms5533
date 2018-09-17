@@ -5,21 +5,13 @@ date: 2018-09-21
 output: github_document
 ---
 
-# Set-Up
-
 ```{r setup, include=FALSE}
 library(tidyverse)
 ```
 
 # Problem 1
 
-### Create a data frame comprised of:
-* A random sample of size 10 from a uniform[0, 5] distribution
-* A logical vector indicating whether elements of the sample are greater than 2
-* A (length-10) character vector
-* A (length-10) factor vector
-
-```{r df_create_1}
+```{r df1_create}
 set.seed(1)
 prob1_df = tibble(
   list = sample(0:5, 10, replace = TRUE), 
@@ -29,7 +21,7 @@ prob1_df = tibble(
 )
 ```
 
-### Take the mean of each variable in your dataframe. What works and what doesn’t? Why?
+### Mean of each variable in dataframe
 
 ```{r means}
 mean(prob1_df$list)
@@ -40,7 +32,7 @@ mean(prob1_df$vec_factor)
 
 The mean of _**list**_ and the logical vector _**greater_2**_ are possible. _**list**_ is a list of numbers, and therefore a mean is possible and equals `r mean(prob1_df$list)`. _**greater_2**_ is a logical vector with a dichotomized outcome (TRUE/FALSE), coded as 1 or 0, and equals `r mean(prob1_df$greater_2)`. Means of _**vec_car**_ and _**vec_factor**_ cannot compute as they are not numeric. 
 
-### Write a code chunk that applies the as.numeric function to the logical, character, and factor variables (please show this chunk but not the output). What happens?
+### Means as numeric variables
 
 ```{r means_as_numeric, eval=FALSE}
 mean(as.numeric(prob1_df$greater_2))
@@ -50,7 +42,7 @@ mean(as.numeric(prob1_df$vec_factor))
 
 When applying the _**as.numeric**_ function to the logical vector, it produced the same result, `r mean(as.numeric(prob1_df$greater_2))`. The _**as.numeric**_ function did not change the outcome of the character or factor vectors. 
 
-### Convert your character variable from character to factor to numeric; similarly, convert your factor variable from factor to character to numeric. What happens?
+### Changing classes of variables
 
 ```{r converting, eval=FALSE}
 as.numeric(as.factor(prob1_df$vec_car))
@@ -63,7 +55,7 @@ Converting the factor vector to character to numeric, however, is not possible.
 
 # Problem 2
 
-```{r df_create_2}
+```{r df2_create}
 set.seed(2)
 prob2_df = tibble(
   x = rnorm(1000),
@@ -72,10 +64,40 @@ prob2_df = tibble(
   TF_num = as.numeric(greater_0),
   TF_fac = as.factor(TF_num)
 )
+```
+```{r df2_str, include=FALSE}
 str(prob2_df)
 ```
 
 The data frame created has a size of `r nrow(prob2_df)` data points. The mean of _**x**_ is equal to `r round(mean(prob2_df$x), digits = 5)` and the median of _**x**_ is equal to `r round(median(prob2_df$x), digits = 5)`.  `r sum(prob2_df$TF_num)` data points of `r nrow(prob2_df)` total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
+
+### Scatterplot of _y_ vs _x_ by logical variable
+
+```{r yx_scatter_log, echo=FALSE}
+ggplot(prob2_df, aes(x = x, y = y, color = greater_0)) + geom_point()
+```
+```{r yx_scatter_log_save, include=FALSE}
+ggsave
+```
+
+There is a clear distribution of values of _**x + y > 0**_ and _**x + y < 0**_ along the line _**y = -x**_. 
+
+### Scatterplot of _y_ vs _x_ by numeric variable
+
+```{r yx_scatter_num, echo=FALSE}
+ggplot(prob2_df, aes(x = x, y = y, color = TF_num)) + geom_point()
+```
+
+The same distribution is seen as above between points with values of _**x + y > 0**_ and _**x + y < 0**_ along the line _**y = -x**_. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, 1 and 0. Therefore the chart looks the same. 
+
+### Scatterplot of _y_ vs _x_ by factor variable
+
+```{r yx_scatter_fac, echo=FALSE}
+ggplot(prob2_df, aes(x = x, y = y, color = TF_fac)) + geom_point()
+```
+
+The same distribution is seen as in the first plot, as TRUE is coded as 1 and FALSE is coded as 0. 
+
 
 
 
