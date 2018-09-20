@@ -69,12 +69,13 @@ prob2_df = tibble(
 str(prob2_df)
 ```
 
-The data frame created has a size of `r nrow(prob2_df)` data points. The mean of `x` is equal to **`r round(mean(prob2_df$x), digits = 5)`** and the median of `x` is equal to **`r round(median(prob2_df$x), digits = 5)`**.  **`r sum(prob2_df$TF_num)`** data points of **`r nrow(prob2_df)`** total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
+The data frame created has a size of `r nrow(prob2_df)*ncol(prob2_df)` data points, with `r nrow(prob2_df)` observations and `r ncol(prob2_df)` variables. The mean of `x` is equal to **`r round(mean(prob2_df$x), digits = 5)`** and the median of `x` is equal to **`r round(median(prob2_df$x), digits = 5)`**.  **`r sum(prob2_df$TF_num)`** data points of **`r nrow(prob2_df)`** total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
 
 ### Scatterplot of _y_ vs _x_ by logical variable
 
 ```{r yx_scatter_log, echo=FALSE}
 plot1 = ggplot(prob2_df, aes(x = x, y = y, color = greater_0)) + geom_point()
+plot1
 ```
 
 There is a clear distribution of values of `x+y > 0` and `x+y < 0` along the line `y = -x`. 
@@ -83,6 +84,7 @@ There is a clear distribution of values of `x+y > 0` and `x+y < 0` along the lin
 
 ```{r yx_scatter_num, echo=FALSE}
 plot2 = ggplot(prob2_df, aes(x = x, y = y, color = TF_num)) + geom_point()
+plot2
 ```
 
 The same distribution is seen as above between points with values of `x+y > 0` and `x+y < 0` along the line `y = -x`. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, '1' and '0'. Therefore the chart looks the same. 
@@ -91,6 +93,7 @@ The same distribution is seen as above between points with values of `x+y > 0` a
 
 ```{r yx_scatter_fac, echo=FALSE}
 plot3 = ggplot(prob2_df, aes(x = x, y = y, color = TF_fac)) + geom_point()
+plot3
 ```
 
 The same distribution is seen as in the first plot, as 'TRUE' is coded as '1' and 'FALSE' is coded as '0'. 
