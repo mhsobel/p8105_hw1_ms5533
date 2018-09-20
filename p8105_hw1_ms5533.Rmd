@@ -14,10 +14,10 @@ library(tidyverse)
 ```{r df1_create}
 set.seed(1)
 prob1_df = tibble(
-  list = sample(0:5, 10, replace = TRUE), 
+  list = runif(10, min = 0, max = 5), 
   greater_2 = list > 2, 
   vec_car = c("Will", "I", "ever", "be", "able", "to", "remember", "any", "R", "commands"), 
-  vec_factor = c("yes", "no", "yes", "no", "yes", "no", "yes", "no", "yes", "no")
+  vec_fac = c("yes", "no", "yes", "no", "yes", "no", "yes", "no", "yes", "no")
 )
 ```
 
@@ -27,31 +27,31 @@ prob1_df = tibble(
 mean(prob1_df$list)
 mean(prob1_df$greater_2)
 mean(prob1_df$vec_car)
-mean(prob1_df$vec_factor)
+mean(prob1_df$vec_fac)
 ```
 
-The mean of `list` and the logical vector `greater_2` are possible. `list` is a list of numbers, and therefore a mean is possible and equals `r mean(prob1_df$list)`. `greater_2` is a logical vector with a dichotomized outcome (TRUE/FALSE), coded as 1 or 0, and equals `r mean(prob1_df$greater_2)`. Means of `vec_car` and `vec_factor` cannot compute as they are not numeric. 
+The mean of `list` and the logical vector `greater_2` are possible. `list` is a list of numbers, and therefore a mean is possible and equals **`r round(mean(prob1_df$list), digits = 2)`**. `greater_2` is a logical vector with a dichotomized outcome ('TRUE'/'FALSE'), coded as '1' or '0', and equals **`r mean(prob1_df$greater_2)`**. Means of `vec_car` and `vec_factor` cannot compute as they are not numeric. 
 
-### Means as numeric variables
+### As numeric variables
 
-```{r means_as_numeric, eval=FALSE}
-mean(as.numeric(prob1_df$greater_2))
-mean(as.numeric(prob1_df$vec_car))
-mean(as.numeric(prob1_df$vec_factor))
+```{r as_numeric, eval=FALSE}
+as.numeric(prob1_df$greater_2)
+as.numeric(prob1_df$vec_car)
+as.numeric(prob1_df$vec_fac)
 ```
 
-When applying the `as.numeric` function to the logical vector, it produced the same result, `r mean(as.numeric(prob1_df$greater_2))`. The `as.numeric` function did not change the outcome of the character or factor vectors. 
+When applying the `as.numeric` function to the logical vector, it produced the same result, it changed 'FALSE' to '0' and 'TRUE' to '1'. The `as.numeric` function did not change the outcome of the character or factor vectors. Though I expected it to change the factor into numerical associations with 'yes' and 'no' since there were no other options.
 
 ### Changing classes of variables
 
 ```{r converting, eval=FALSE}
 as.numeric(as.factor(prob1_df$vec_car))
-as.numeric(as.character(prob1_df$vec_factor))
+as.numeric(as.character(prob1_df$vec_fac))
 ```
 
 Converting the character vector to factor and then to numeric is possible; it returns a numeric list. If first orders the words alphabetically, then it applies numbers to the alphabetical list. The output then is the corresponting number to the word in the original order. 
 
-Converting the factor vector to character to numeric, however, is not possible. 
+Converting the factor vector to character to numeric, however, is not possible here. 
 
 # Problem 2
 
@@ -62,42 +62,44 @@ prob2_df = tibble(
   y = rnorm(1000),
   greater_0 = x + y > 0, 
   TF_num = as.numeric(greater_0),
-  TF_fac = as.factor(TF_num)
+  TF_fac = as.factor(greater_0)
 )
 ```
 ```{r df2_str, include=FALSE}
 str(prob2_df)
 ```
 
-The data frame created has a size of `r nrow(prob2_df)` data points. The mean of `x` is equal to `r round(mean(prob2_df$x), digits = 5)` and the median of `x` is equal to `r round(median(prob2_df$x), digits = 5)`.  `r sum(prob2_df$TF_num)` data points of `r nrow(prob2_df)` total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
+The data frame created has a size of `r nrow(prob2_df)` data points. The mean of `x` is equal to **`r round(mean(prob2_df$x), digits = 5)`** and the median of `x` is equal to **`r round(median(prob2_df$x), digits = 5)`**.  **`r sum(prob2_df$TF_num)`** data points of **`r nrow(prob2_df)`** total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
 
 ### Scatterplot of _y_ vs _x_ by logical variable
 
 ```{r yx_scatter_log, echo=FALSE}
-ggplot(prob2_df, aes(x = x, y = y, color = greater_0)) + geom_point()
-```
-```{r yx_scatter_log_save, include=FALSE}
-ggsave
+plot1 = ggplot(prob2_df, aes(x = x, y = y, color = greater_0)) + geom_point()
 ```
 
-There is a clear distribution of values of `x + y > 0` and `x + y < 0` along the line `y = -x`. 
+There is a clear distribution of values of `x+y > 0` and `x+y < 0` along the line `y = -x`. 
 
 ### Scatterplot of _y_ vs _x_ by numeric variable
 
 ```{r yx_scatter_num, echo=FALSE}
-ggplot(prob2_df, aes(x = x, y = y, color = TF_num)) + geom_point()
+plot2 = ggplot(prob2_df, aes(x = x, y = y, color = TF_num)) + geom_point()
 ```
 
-The same distribution is seen as above between points with values of `x + y > 0` and `x + y < 0` along the line `y = -x`. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, 1 and 0. Therefore the chart looks the same. 
+The same distribution is seen as above between points with values of `x+y > 0` and `x+y < 0` along the line `y = -x`. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, '1' and '0'. Therefore the chart looks the same. 
 
 ### Scatterplot of _y_ vs _x_ by factor variable
 
 ```{r yx_scatter_fac, echo=FALSE}
-ggplot(prob2_df, aes(x = x, y = y, color = TF_fac)) + geom_point()
+plot3 = ggplot(prob2_df, aes(x = x, y = y, color = TF_fac)) + geom_point()
 ```
 
-The same distribution is seen as in the first plot, as TRUE is coded as 1 and FALSE is coded as 0. 
+The same distribution is seen as in the first plot, as 'TRUE' is coded as '1' and 'FALSE' is coded as '0'. 
 
+### Save `plot1` into wd
+
+```{r yx_scatter_log_save, include=FALSE}
+ggsave("plot1.png", plot = plot1, device = png())
+```
 
 
 
