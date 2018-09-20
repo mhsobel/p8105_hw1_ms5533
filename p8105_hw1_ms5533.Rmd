@@ -30,7 +30,7 @@ mean(prob1_df$vec_car)
 mean(prob1_df$vec_factor)
 ```
 
-The mean of _**list**_ and the logical vector _**greater_2**_ are possible. _**list**_ is a list of numbers, and therefore a mean is possible and equals `r mean(prob1_df$list)`. _**greater_2**_ is a logical vector with a dichotomized outcome (TRUE/FALSE), coded as 1 or 0, and equals `r mean(prob1_df$greater_2)`. Means of _**vec_car**_ and _**vec_factor**_ cannot compute as they are not numeric. 
+The mean of `list` and the logical vector `greater_2` are possible. `list` is a list of numbers, and therefore a mean is possible and equals `r mean(prob1_df$list)`. `greater_2` is a logical vector with a dichotomized outcome (TRUE/FALSE), coded as 1 or 0, and equals `r mean(prob1_df$greater_2)`. Means of `vec_car` and `vec_factor` cannot compute as they are not numeric. 
 
 ### Means as numeric variables
 
@@ -40,7 +40,7 @@ mean(as.numeric(prob1_df$vec_car))
 mean(as.numeric(prob1_df$vec_factor))
 ```
 
-When applying the _**as.numeric**_ function to the logical vector, it produced the same result, `r mean(as.numeric(prob1_df$greater_2))`. The _**as.numeric**_ function did not change the outcome of the character or factor vectors. 
+When applying the `as.numeric` function to the logical vector, it produced the same result, `r mean(as.numeric(prob1_df$greater_2))`. The `as.numeric` function did not change the outcome of the character or factor vectors. 
 
 ### Changing classes of variables
 
@@ -69,7 +69,7 @@ prob2_df = tibble(
 str(prob2_df)
 ```
 
-The data frame created has a size of `r nrow(prob2_df)` data points. The mean of _**x**_ is equal to `r round(mean(prob2_df$x), digits = 5)` and the median of _**x**_ is equal to `r round(median(prob2_df$x), digits = 5)`.  `r sum(prob2_df$TF_num)` data points of `r nrow(prob2_df)` total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
+The data frame created has a size of `r nrow(prob2_df)` data points. The mean of `x` is equal to `r round(mean(prob2_df$x), digits = 5)` and the median of `x` is equal to `r round(median(prob2_df$x), digits = 5)`.  `r sum(prob2_df$TF_num)` data points of `r nrow(prob2_df)` total are above 0 (`r sum(prob2_df$TF_num)`/`r nrow(prob2_df)`). 
 
 ### Scatterplot of _y_ vs _x_ by logical variable
 
@@ -80,7 +80,7 @@ ggplot(prob2_df, aes(x = x, y = y, color = greater_0)) + geom_point()
 ggsave
 ```
 
-There is a clear distribution of values of _**x + y > 0**_ and _**x + y < 0**_ along the line _**y = -x**_. 
+There is a clear distribution of values of `x + y > 0` and `x + y < 0` along the line `y = -x`. 
 
 ### Scatterplot of _y_ vs _x_ by numeric variable
 
@@ -88,7 +88,7 @@ There is a clear distribution of values of _**x + y > 0**_ and _**x + y < 0**_ a
 ggplot(prob2_df, aes(x = x, y = y, color = TF_num)) + geom_point()
 ```
 
-The same distribution is seen as above between points with values of _**x + y > 0**_ and _**x + y < 0**_ along the line _**y = -x**_. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, 1 and 0. Therefore the chart looks the same. 
+The same distribution is seen as above between points with values of `x + y > 0` and `x + y < 0` along the line `y = -x`. However, as they are now color-coded by a numeric variable and not a categorical variable, the legend shows a ramp of colors possible based on the value. Since it is a dichotomous variable, there are only two options, 1 and 0. Therefore the chart looks the same. 
 
 ### Scatterplot of _y_ vs _x_ by factor variable
 
